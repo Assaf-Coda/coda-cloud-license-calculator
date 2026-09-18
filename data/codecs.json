@@ -1,0 +1,10 @@
+{
+  "_source": "Coda Video Server Calculator (portal.octavesecurity.com/apps/hxgn-dc3-video-calculator), videos.js streamings[].motionValues",
+  "H.264": {
+    "factor": 1,
+    "Low":    { "v1": 0.02472818,  "v2": -1.38676073, "v3": 68.4996815,  "v4": 38.8684998, "v5": 0 },
+    "Medium": { "v1": -0.0014164,  "v2": 0.10922871,  "v3": 3.23824596,  "v4": 110.15808,  "v5": 26.9603536 },
+    "High":   { "v1": -0.00676952, "v2": 0.60260873,  "v3": -18.6262365, "v4": 371.486918, "v5": 68.17364068 }
+  },
+  "H.265": { "base": "H.264", "factor": 0.75 }
+}

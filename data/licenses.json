@@ -1,0 +1,6 @@
+[
+  { "days": 7,  "sku": "DC3VC-1C-7C",  "available": false },
+  { "days": 30, "sku": "DC3VC-1C-30C", "available": true },
+  { "days": 60, "sku": "DC3VC-1C-60C", "available": true },
+  { "days": 90, "sku": "DC3VC-1C-90C", "available": true }
+]

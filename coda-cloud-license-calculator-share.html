@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Coda Video Cloud License Calculator</title>
+  <style>
+:root {
+  --black: #1A1A1F;
+  --gray5: #3E4047;
+  --gray4: #6F7480;
+  --gray3: #B2B8C4;
+  --gray2: #CBD0D8;
+  --gray1: #E7EBF2;
+  --white: #FFFFFF;
+  --aqua: #00FFFF;
+  --green: #4FFF00;
+  --orange: #F46600;
+  --pink: #FF00C7;
+  --datagreen: #00AA14;
+  --line: #6F7480;
+}
+
+* { box-sizing: border-box; }
+
+html { background: var(--black); }
+body {
+  margin: 0;
+  font-family: Aptos, "Segoe UI Variable", "Segoe UI", -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--gray1);
+  background: var(--black);
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 32px;
+  border-bottom: 1px solid var(--line);
+}
+.logo { display: block; color: var(--white); }
+.product { font-weight: 600; color: var(--white); }
+.tool { color: var(--gray3); }
+.tool::before { content: "/"; color: var(--gray4); margin-right: 16px; }
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(280px, 400px) minmax(0, 1fr);
+  gap: 64px;
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 40px 32px 64px;
+}
+@media (max-width: 860px) {
+  .layout { grid-template-columns: 1fr; gap: 40px; padding: 28px 16px 48px; }
+  .topbar { padding: 14px 16px; }
+}
+
+h1 {
+  margin: 0 0 8px;
+  font-size: 28px;
+  line-height: 1.2;
+  font-weight: 600;
+  color: var(--white);
+  letter-spacing: -0.01em;
+}
+.lead { margin: 0 0 28px; color: var(--gray3); max-width: 38ch; }
+
+.field { margin-bottom: 18px; }
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.field label { display: block; margin-bottom: 6px; color: var(--gray2); font-size: 14px; }
+select, input {
+  width: 100%;
+  padding: 9px 10px;
+  font: inherit;
+  color: var(--white);
+  background: var(--gray5);
+  border: 1px solid var(--gray5);
+  border-radius: 3px;
+}
+select:focus-visible, input:focus-visible {
+  outline: none;
+  border-color: var(--aqua);
+}
+
+.hidden { display: none !important; }
+
+.recommend {
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 28px;
+}
+.recommend p { margin: 0; }
+.recommend-label { color: var(--gray3); font-size: 14px; }
+.sku {
+  font-size: clamp(34px, 5vw, 52px);
+  line-height: 1.1;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--datagreen);
+  margin: 4px 0 8px !important;
+  font-variant-numeric: tabular-nums;
+}
+.recommend.none .sku { color: var(--orange); }
+.note { color: var(--gray2); }
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin: 0 0 32px;
+}
+@media (max-width: 560px) { .stats { grid-template-columns: 1fr; gap: 14px; } }
+.stats dt { color: var(--gray3); font-size: 14px; }
+.stats dd { margin: 2px 0 0; font-size: 20px; font-weight: 600; color: var(--white); font-variant-numeric: tabular-nums; }
+.stats dd small { display: block; font-size: 13px; font-weight: 400; color: var(--gray3); }
+
+.tiers { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.tiers th, .tiers td { padding: 10px 8px; text-align: left; border-bottom: 1px solid var(--line); }
+.tiers th { font-weight: 400; color: var(--gray3); font-size: 14px; }
+.tiers .num { text-align: right; }
+.tiers td:first-child { padding-left: 0; }
+.tiers th:first-child { padding-left: 0; }
+.tiers tr.pick td { color: var(--white); font-weight: 600; }
+.tiers tr.pick td:first-child { box-shadow: inset 3px 0 0 var(--datagreen); padding-left: 10px; }
+.tiers tr.na td { color: var(--gray4); }
+.tiers td.yes { color: var(--green); }
+.tiers td.no { color: var(--gray4); }
+
+.over {
+  margin-top: 28px;
+  padding: 18px 20px;
+  border-left: 3px solid var(--orange);
+  background: rgba(62, 64, 71, 0.45);
+}
+.over h2 { margin: 0 0 8px; font-size: 17px; color: var(--white); }
+.over p { margin: 6px 0; color: var(--gray2); }
+.over ul { margin: 6px 0 0; padding-left: 18px; color: var(--gray2); }
+.over strong { color: var(--white); }
+
+.footnote { margin: 36px 0 0; color: var(--gray4); font-size: 13px; max-width: 64ch; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .sku { transition: color .2s ease; }
+}
+
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <svg class="logo" width="61" height="40" id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 430 282" role="img" aria-label="Octave Logo">
+  <title>Octave Logo</title>
+  <defs>
+    <style>
+      .st0 {
+        fill: #FFFFFF;
+      }
+    </style>
+  </defs>
+  <path class="st0" d="M186.9,233.8c-13.4,0-25.4,8.7-25.4,22.9s12.1,22.9,25.4,22.9,25.4-8.8,25.4-22.9-12-22.9-25.4-22.9M204.3,256.7c0,9.9-8.2,15.7-17.4,15.7s-17.3-5.8-17.3-15.7,8.2-15.8,17.3-15.8,17.4,5.9,17.4,15.8M224.4,256.7c0,9.9,8.2,15.7,17.3,15.7s12.3-2,15.4-9.2h8.5c-4.2,14-17.6,16.4-23.8,16.4-13.3,0-25.4-8.6-25.4-22.9s12-22.9,25.4-22.9,19,.4,23.8,16.1h-8.5c-3.7-8.2-12.4-9-15.4-9-9.2,0-17.3,5.9-17.3,15.8h0ZM306.3,241.5h-12.4c-2.8,0-4.2,2.4-4.2,7.1v30.2h-8v-30.2c0-3.7,1.6-6,4.9-7.1h-21.1v-7h40.8v7h0ZM327.7,234.5h-10.6l-19.9,44.3h8.6l4.5-10.1h24.2l4.5,10.1h8.6l-19.9-44.3h0ZM322.9,242.4l8.5,19.3h-18l8.5-19.3h1ZM379.3,234.5h8.8l-19.1,44.3h-11l-19.1-44.3h8.8l15.3,35.9h1.1l15.3-35.9h0ZM399.4,241.5v11.6h24v6.9h-24v11.9h27.1v7h-35.1v-44.3h35.1v7h-27.1ZM239.4,57.7l39.4-39.4c-22.8-9.3-54.1-15.9-97.8-15.9-72.6.1-131.4,34.6-131.4,77.1s39.7,64.5,94.1,73.9l-20.6,20.6c-57-25.2-119.5-1.9-119.5,30s21.3,34.3,50.4,39.1l-21.8,21.8c15.8,5.2,32.2,6.9,50,6.9,38.3,0,69.3-18.2,69.3-40.7s-9-23-23.3-30.4c19,4.5,42.2,7.3,70.6,7.3,72.5,0,131.3-34.5,131.3-77.1s-38-63.2-90.6-73.3M77.5,239.2c-28.5,0-51.6-10.6-51.6-23.6s23.1-23.6,51.6-23.6,51.6,10.6,51.6,23.6-23.1,23.6-51.6,23.6M191,150.9c-55,0-99.5-20.4-99.5-45.6s44.6-45.6,99.5-45.6,99.5,20.4,99.5,45.6-44.6,45.6-99.5,45.6"/>
+</svg>
+    <span class="product">Coda Video Cloud</span>
+    <span class="tool">License calculator</span>
+  </header>
+
+  <main class="layout">
+    <form id="calc" class="inputs" autocomplete="off">
+      <h1>Which camera license covers this camera?</h1>
+      <p class="lead">Enter one camera's recording settings. Bitrate follows the same model as the Coda Video Server Calculator.</p>
+
+      <div class="field">
+        <label for="resolution">Resolution</label>
+        <select id="resolution" name="resolution"></select>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label for="fps">Frame rate</label>
+          <select id="fps" name="fps"></select>
+        </div>
+        <div class="field">
+          <label for="codec">Video format</label>
+          <select id="codec" name="codec">
+            <option value="H.264">H.264</option>
+            <option value="H.265">H.265</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label for="quality">Video quality</label>
+        <select id="quality" name="quality">
+          <option value="Low">Low</option>
+          <option value="Medium" selected>Medium</option>
+          <option value="High">High</option>
+          <option value="Custom">Custom bitrate</option>
+        </select>
+      </div>
+      <div id="customWrap" class="field hidden">
+        <label for="customKbps">Average bitrate, kbit/s</label>
+        <input id="customKbps" name="customKbps" type="number" min="1" step="1" value="1024">
+      </div>
+      <div class="row">
+        <div class="field">
+          <label for="hours">Recording hours per day</label>
+          <input id="hours" name="hours" type="number" min="1" max="24" step="1" value="24">
+        </div>
+        <div class="field">
+          <label for="retention">Retention</label>
+          <select id="retention" name="retention"></select>
+        </div>
+      </div>
+    </form>
+
+    <section class="results" aria-live="polite">
+      <div id="recommend" class="recommend">
+        <p class="recommend-label">Recommended license</p>
+        <p id="sku" class="sku">-</p>
+        <p id="skuNote" class="note"></p>
+      </div>
+
+      <dl class="stats">
+        <div><dt>Average bitrate</dt><dd id="bitrate">-</dd></div>
+        <div><dt>Storage needed</dt><dd id="storage">-</dd></div>
+        <div><dt>Equivalent at 1 Mbit/s, 24/7</dt><dd id="equivDays">-</dd></div>
+      </dl>
+
+      <table class="tiers">
+        <thead>
+          <tr><th>License</th><th class="num">Retention</th><th class="num">Quota</th><th class="num">Used</th><th>Fits</th></tr>
+        </thead>
+        <tbody id="tierRows"></tbody>
+      </table>
+
+      <div id="over" class="over hidden">
+        <h2>No license covers these settings</h2>
+        <p id="overDays"></p>
+        <p id="overLimit"></p>
+        <p>Highest frame rate per quality that fits DC3VC-1C-90C at this resolution and format:</p>
+        <ul id="hints"></ul>
+      </div>
+
+      <p class="footnote">Each license covers one camera at 1 Mbit/s average, recording 24/7, for its retention period. Units match the server calculator: 1 Mbit/s = 1024 kbit/s.</p>
+    </section>
+  </main>
+
+  <script>
+(() => {
+const resolutions = [{"id": "176x144", "resX": "176", "resY": "144", "name": "QCIF (11:9)", "label": "176x144 QCIF (11:9)"}, {"id": "265x144", "resX": "265", "resY": "144", "name": "QCIF (16:9)", "label": "265x144 QCIF (16:9)"}, {"id": "320x240", "resX": "320", "resY": "240", "name": "QVGA (4:3)", "label": "320x240 QVGA (4:3)"}, {"id": "352x288", "resX": "352", "resY": "288", "name": "CIF (11:9)", "label": "352x288 CIF (11:9)"}, {"id": "512x288", "resX": "512", "resY": "288", "name": "CIF (16:9)", "label": "512x288 CIF (16:9)"}, {"id": "704x288", "resX": "704", "resY": "288", "name": "2CIF (22:9)", "label": "704x288 2CIF (22:9)"}, {"id": "640x480", "resX": "640", "resY": "480", "name": "VGA (4:3)", "label": "640x480 VGA (4:3)"}, {"id": "704x576", "resX": "704", "resY": "576", "name": "4CIF (11:9)", "label": "704x576 4CIF (11:9)"}, {"id": "720x576", "resX": "720", "resY": "576", "name": "D1 (5:4)", "label": "720x576 D1 (5:4)"}, {"id": "800x600", "resX": "800", "resY": "600", "name": "SVGA (4:3)", "label": "800x600 SVGA (4:3)"}, {"id": "1024x768", "resX": "1024", "resY": "768", "name": "XGA (4:3)", "label": "1024x768 XGA (4:3)"}, {"id": "1280x720", "resX": "1280", "resY": "720", "name": "HD (16:9)", "label": "1280x720 HD (16:9)"}, {"id": "1280x800", "resX": "1280", "resY": "800", "name": "1MP (16:10)", "label": "1280x800 1MP (16:10)"}, {"id": "1280x960", "resX": "1280", "resY": "960", "name": "1.2MP (4:3)", "label": "1280x960 1.2MP (4:3)"}, {"id": "1280x1024", "resX": "1280", "resY": "1024", "name": "1,3MP (5:4)", "label": "1280x1024 1,3MP (5:4)"}, {"id": "1600x1200", "resX": "1600", "resY": "1200", "name": "2MP (4:3)", "label": "1600x1200 2MP (4:3)"}, {"id": "1920x1080", "resX": "1920", "resY": "1080", "name": "Full HD (16:9)", "label": "1920x1080 Full HD (16:9)"}, {"id": "1920x1200", "resX": "1920", "resY": "1200", "name": "2.3MP (16:10)", "label": "1920x1200 2.3MP (16:10)"}, {"id": "2048x1536", "resX": "2048", "resY": "1536", "name": "3.1MP (4:3)", "label": "2048x1536 3.1MP (4:3)"}, {"id": "2304x1728", "resX": "2304", "resY": "1728", "name": "4MP (4:3)", "label": "2304x1728 4MP (4:3)"}, {"id": "2560x1440", "resX": "2560", "resY": "1440", "name": "4MP (16:9)", "label": "2560x1440 4MP (16:9)"}, {"id": "2560x1600", "resX": "2560", "resY": "1600", "name": "4MP (16:10)", "label": "2560x1600 4MP (16:10)"}, {"id": "2560x1920", "resX": "2560", "resY": "1920", "name": "5MP (4:3)", "label": "2560x1920 5MP (4:3)"}, {"id": "2592x1944", "resX": "2592", "resY": "1944", "name": "5MP (4:3)", "label": "2592x1944 5MP (4:3)"}, {"id": "2688x1520", "resX": "2688", "resY": "1520", "name": "4MP (16:9)", "label": "2688x1520 4MP (16:9)"}, {"id": "3072x1728", "resX": "3072", "resY": "1728", "name": "5.3MP (16:9)", "label": "3072x1728 5.3MP (16:9)"}, {"id": "3840x2160", "resX": "3840", "resY": "2160", "name": "4K (16:9)", "label": "3840x2160 4K (16:9)"}, {"id": "4000x3000", "resX": "4000", "resY": "3000", "name": "12MP (4:3)", "label": "4000x3000 12MP (4:3)"}];
+const codecs = {"_source": "Coda Video Server Calculator (portal.octavesecurity.com/apps/hxgn-dc3-video-calculator), videos.js streamings[].motionValues", "H.264": {"factor": 1, "Low": {"v1": 0.02472818, "v2": -1.38676073, "v3": 68.4996815, "v4": 38.8684998, "v5": 0}, "Medium": {"v1": -0.0014164, "v2": 0.10922871, "v3": 3.23824596, "v4": 110.15808, "v5": 26.9603536}, "High": {"v1": -0.00676952, "v2": 0.60260873, "v3": -18.6262365, "v4": 371.486918, "v5": 68.17364068}}, "H.265": {"base": "H.264", "factor": 0.75}};
+const licenses = [{"days": 7, "sku": "DC3VC-1C-7C", "available": false}, {"days": 30, "sku": "DC3VC-1C-30C", "available": true}, {"days": 60, "sku": "DC3VC-1C-60C", "available": true}, {"days": 90, "sku": "DC3VC-1C-90C", "available": true}];
+
+// Pure calculation functions. No DOM. Mirrors the Coda Video Server Calculator math.
+
+const KBPS_PER_MBPS = 1024;          // source calculator uses binary units
+const LICENSE_KBPS = 1024;           // license sized for 1 Mbps average
+const LICENSE_HOURS = 24;            // 24/7
+
+// Average bitrate in kbit/s for a resolution, fps, quality and codec.
+function bitrateKbps(codecs, codec, resX, resY, fps, quality, customKbps) {
+  if (quality === "Custom") return Math.max(0, Math.round(Number(customKbps) || 0));
+  const def = codecs[codec];
+  const base = def.base ? codecs[def.base] : def;
+  const factor = def.factor ?? 1;
+  const v = base[quality];
+  const mpx = (resX * resY) / 1e6;
+  let kbps;
+  if (quality === "Low") {
+    kbps = mpx * (v.v1 * fps ** 3 + v.v2 * fps ** 2 + v.v3 * fps + v.v4);
+  } else if (quality === "High") {
+    kbps = mpx * (v.v1 * fps ** 4 + v.v2 * fps ** 3 + v.v3 * fps ** 2 + v.v4 * fps + v.v5);
+  } else {
+    // Medium: source formula subtracts the v3 term
+    kbps = mpx * (v.v1 * fps ** 4 + v.v2 * fps ** 3 - v.v3 * fps ** 2 + v.v4 * fps + v.v5);
+  }
+  kbps = Math.round(kbps);
+  return factor === 1 ? kbps : Math.round(kbps * factor);
+}
+
+function kbpsToMbps(kbps) {
+  return kbps / KBPS_PER_MBPS;
+}
+
+// Storage in GB (binary), same formula as the server calculator.
+function storageGB(kbps, hoursPerDay, days) {
+  return (kbps / 1024 / 8) * 3600 * hoursPerDay * days / 1024;
+}
+
+// "Load" in kbps-hours: linear proxy for storage, avoids unit noise.
+function load(kbps, hoursPerDay, days) {
+  return kbps * hoursPerDay * days;
+}
+
+function licenseQuotaGB(days) {
+  return storageGB(LICENSE_KBPS, LICENSE_HOURS, days);
+}
+
+// Per-tier evaluation. A tier fits when its 1 Mbps x 24/7 quota covers the storage
+// and the tier retention covers the requested retention.
+function evaluateTiers(licenses, kbps, hoursPerDay, retentionDays) {
+  const need = load(kbps, hoursPerDay, retentionDays);
+  return licenses.map((lic) => {
+    const quota = load(LICENSE_KBPS, LICENSE_HOURS, lic.days);
+    return {
+      ...lic,
+      quotaGB: licenseQuotaGB(lic.days),
+      utilisation: quota ? need / quota : 0,
+      fits: need <= quota && lic.days >= retentionDays,
+    };
+  });
+}
+
+// Smallest tier that fits, or null.
+function pickLicense(licenses, kbps, hoursPerDay, retentionDays) {
+  return evaluateTiers(licenses, kbps, hoursPerDay, retentionDays)
+    .filter((t) => t.fits)
+    .sort((a, b) => a.days - b.days)[0] ?? null;
+}
+
+// How many days of retention a tier supports at this bitrate and activity.
+function daysSupported(tierDays, kbps, hoursPerDay) {
+  if (!kbps || !hoursPerDay) return Infinity;
+  return Math.floor(load(LICENSE_KBPS, LICENSE_HOURS, tierDays) / (kbps * hoursPerDay));
+}
+
+// Max average bitrate (kbps) that still fits a tier for given activity and retention.
+function maxKbpsForTier(tierDays, hoursPerDay, retentionDays) {
+  return Math.floor(load(LICENSE_KBPS, LICENSE_HOURS, tierDays) / (hoursPerDay * retentionDays));
+}
+
+// For each quality, the highest fps (1..maxFps) that fits the tier at this resolution/codec.
+function fixHints(codecs, codec, resX, resY, tierDays, hoursPerDay, retentionDays, maxFps = 30) {
+  const limit = maxKbpsForTier(tierDays, hoursPerDay, retentionDays);
+  return ["Low", "Medium", "High"].map((quality) => {
+    let best = null;
+    for (let fps = 1; fps <= maxFps; fps++) {
+      const k = bitrateKbps(codecs, codec, resX, resY, fps, quality);
+      if (k <= limit) best = { fps, kbps: k };
+    }
+    return { quality, ...(best ?? { fps: 0, kbps: 0 }) };
+  });
+}
+
+
+
+const $ = (id) => document.getElementById(id);
+
+const TOP_TIER = licenses.reduce((a, b) => (b.days > a.days ? b : a));
+
+function fill(select, items, selected) {
+  select.innerHTML = items.map(({ value, label }) =>
+    `<option value="${value}"${String(value) === String(selected) ? " selected" : ""}>${label}</option>`).join("");
+}
+
+fill($("resolution"), resolutions.map((r) => ({ value: r.id, label: r.label })), "1920x1080");
+fill($("fps"), Array.from({ length: 30 }, (_, i) => ({ value: i + 1, label: i + 1 })), 15);
+fill($("retention"), licenses.map((l) => ({ value: l.days, label: `${l.days} days${l.available ? "" : " (coming soon)"}` })), 30);
+
+const fmt = (n, d = 1) => n.toLocaleString(undefined, { maximumFractionDigits: d, minimumFractionDigits: d });
+const fmtGB = (gb) => gb >= 1000 ? `${fmt(gb / 1024, 2)} TB` : `${fmt(gb)} GB`;
+
+function read() {
+  const res = resolutions.find((r) => r.id === $("resolution").value);
+  return {
+    resX: Number(res.resX), resY: Number(res.resY),
+    fps: Number($("fps").value),
+    codec: $("codec").value,
+    quality: $("quality").value,
+    customKbps: Number($("customKbps").value),
+    hours: Math.min(24, Math.max(1, Number($("hours").value) || 24)),
+    retention: Number($("retention").value),
+  };
+}
+
+function render() {
+  const s = read();
+  $("customWrap").classList.toggle("hidden", s.quality !== "Custom");
+
+  const kbps = bitrateKbps(codecs, s.codec, s.resX, s.resY, s.fps, s.quality, s.customKbps);
+  const gb = storageGB(kbps, s.hours, s.retention);
+  const tiers = evaluateTiers(licenses, kbps, s.hours, s.retention);
+  const pick = pickLicense(licenses, kbps, s.hours, s.retention);
+
+  $("bitrate").innerHTML = `${fmt(kbpsToMbps(kbps), 2)} Mbit/s <small>${kbps.toLocaleString()} kbit/s</small>`;
+  $("storage").innerHTML = `${fmtGB(gb)} <small>${s.hours} h/day x ${s.retention} d</small>`;
+  $("equivDays").innerHTML = `${fmt(kbps * s.hours * s.retention / (1024 * 24))} days`;
+
+  const rec = $("recommend");
+  rec.classList.toggle("none", !pick);
+  $("sku").textContent = pick ? pick.sku : "None";
+  $("skuNote").textContent = pick
+    ? (pick.available ? `${pick.days}-day license, ${fmt(pick.utilisation * 100, 0)}% of quota used` : `${pick.days}-day license, not yet orderable. Next: ${tiers.find((t) => t.fits && t.available)?.sku ?? "none"}`)
+    : `Exceeds the ${TOP_TIER.sku} quota by ${fmt((tiers.at(-1).utilisation - 1) * 100, 0)}%`;
+
+  $("tierRows").innerHTML = tiers.map((t) => `
+    <tr class="${pick && t.sku === pick.sku ? "pick" : ""} ${t.available ? "" : "na"}">
+      <td>${t.sku}${t.available ? "" : " (coming soon)"}</td>
+      <td class="num">${t.days} days</td>
+      <td class="num">${fmtGB(t.quotaGB)}</td>
+      <td class="num">${fmt(t.utilisation * 100, 0)}%</td>
+      <td class="${t.fits ? "yes" : "no"}">${t.fits ? "Yes" : "No"}</td>
+    </tr>`).join("");
+
+  const over = $("over");
+  over.classList.toggle("hidden", !!pick);
+  if (!pick) {
+    const days = daysSupported(TOP_TIER.days, kbps, s.hours);
+    $("overDays").innerHTML = `At these settings a <strong>${TOP_TIER.sku}</strong> supports <strong>${days} days</strong> of retention.`;
+    const limit = maxKbpsForTier(TOP_TIER.days, s.hours, s.retention);
+    $("overLimit").innerHTML = `To keep ${s.retention} days at ${s.hours} h/day, average bitrate must stay under <strong>${fmt(kbpsToMbps(limit), 2)} Mbit/s</strong> (${limit.toLocaleString()} kbit/s).`;
+    $("hints").innerHTML = fixHints(codecs, s.codec, s.resX, s.resY, TOP_TIER.days, s.hours, s.retention)
+      .map((h) => `<li>${h.quality}: ${h.fps ? `${h.fps} fps (${fmt(kbpsToMbps(h.kbps), 2)} Mbit/s)` : "no frame rate fits, lower the resolution"}</li>`)
+      .join("");
+  }
+}
+
+$("calc").addEventListener("input", render);
+render();
+
+})();
+</script>
+</body>
+</html>

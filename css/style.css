@@ -1,0 +1,140 @@
+:root {
+  --black: #1A1A1F;
+  --gray5: #3E4047;
+  --gray4: #6F7480;
+  --gray3: #B2B8C4;
+  --gray2: #CBD0D8;
+  --gray1: #E7EBF2;
+  --white: #FFFFFF;
+  --aqua: #00FFFF;
+  --green: #4FFF00;
+  --orange: #F46600;
+  --pink: #FF00C7;
+  --datagreen: #00AA14;
+  --line: #6F7480;
+}
+
+* { box-sizing: border-box; }
+
+html { background: var(--black); }
+body {
+  margin: 0;
+  font-family: Aptos, "Segoe UI Variable", "Segoe UI", -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--gray1);
+  background: var(--black);
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 32px;
+  border-bottom: 1px solid var(--line);
+}
+.logo { display: block; color: var(--white); }
+.product { font-weight: 600; color: var(--white); }
+.tool { color: var(--gray3); }
+.tool::before { content: "/"; color: var(--gray4); margin-right: 16px; }
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(280px, 400px) minmax(0, 1fr);
+  gap: 64px;
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 40px 32px 64px;
+}
+@media (max-width: 860px) {
+  .layout { grid-template-columns: 1fr; gap: 40px; padding: 28px 16px 48px; }
+  .topbar { padding: 14px 16px; }
+}
+
+h1 {
+  margin: 0 0 8px;
+  font-size: 28px;
+  line-height: 1.2;
+  font-weight: 600;
+  color: var(--white);
+  letter-spacing: -0.01em;
+}
+.lead { margin: 0 0 28px; color: var(--gray3); max-width: 38ch; }
+
+.field { margin-bottom: 18px; }
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.field label { display: block; margin-bottom: 6px; color: var(--gray2); font-size: 14px; }
+select, input {
+  width: 100%;
+  padding: 9px 10px;
+  font: inherit;
+  color: var(--white);
+  background: var(--gray5);
+  border: 1px solid var(--gray5);
+  border-radius: 3px;
+}
+select:focus-visible, input:focus-visible {
+  outline: none;
+  border-color: var(--aqua);
+}
+
+.hidden { display: none !important; }
+
+.recommend {
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 28px;
+}
+.recommend p { margin: 0; }
+.recommend-label { color: var(--gray3); font-size: 14px; }
+.sku {
+  font-size: clamp(34px, 5vw, 52px);
+  line-height: 1.1;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--datagreen);
+  margin: 4px 0 8px !important;
+  font-variant-numeric: tabular-nums;
+}
+.recommend.none .sku { color: var(--orange); }
+.note { color: var(--gray2); }
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin: 0 0 32px;
+}
+@media (max-width: 560px) { .stats { grid-template-columns: 1fr; gap: 14px; } }
+.stats dt { color: var(--gray3); font-size: 14px; }
+.stats dd { margin: 2px 0 0; font-size: 20px; font-weight: 600; color: var(--white); font-variant-numeric: tabular-nums; }
+.stats dd small { display: block; font-size: 13px; font-weight: 400; color: var(--gray3); }
+
+.tiers { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.tiers th, .tiers td { padding: 10px 8px; text-align: left; border-bottom: 1px solid var(--line); }
+.tiers th { font-weight: 400; color: var(--gray3); font-size: 14px; }
+.tiers .num { text-align: right; }
+.tiers td:first-child { padding-left: 0; }
+.tiers th:first-child { padding-left: 0; }
+.tiers tr.pick td { color: var(--white); font-weight: 600; }
+.tiers tr.pick td:first-child { box-shadow: inset 3px 0 0 var(--datagreen); padding-left: 10px; }
+.tiers tr.na td { color: var(--gray4); }
+.tiers td.yes { color: var(--green); }
+.tiers td.no { color: var(--gray4); }
+
+.over {
+  margin-top: 28px;
+  padding: 18px 20px;
+  border-left: 3px solid var(--orange);
+  background: rgba(62, 64, 71, 0.45);
+}
+.over h2 { margin: 0 0 8px; font-size: 17px; color: var(--white); }
+.over p { margin: 6px 0; color: var(--gray2); }
+.over ul { margin: 6px 0 0; padding-left: 18px; color: var(--gray2); }
+.over strong { color: var(--white); }
+
+.footnote { margin: 36px 0 0; color: var(--gray4); font-size: 13px; max-width: 64ch; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .sku { transition: color .2s ease; }
+}

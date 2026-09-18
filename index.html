@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Coda Video Cloud License Calculator</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <img class="logo" src="assets/octave-logo.svg" alt="Octave" width="61" height="40">
+    <span class="product">Coda Video Cloud</span>
+    <span class="tool">License calculator</span>
+  </header>
+
+  <main class="layout">
+    <form id="calc" class="inputs" autocomplete="off">
+      <h1>Which camera license covers this camera?</h1>
+      <p class="lead">Enter one camera's recording settings. Bitrate follows the same model as the Coda Video Server Calculator.</p>
+
+      <div class="field">
+        <label for="resolution">Resolution</label>
+        <select id="resolution" name="resolution"></select>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label for="fps">Frame rate</label>
+          <select id="fps" name="fps"></select>
+        </div>
+        <div class="field">
+          <label for="codec">Video format</label>
+          <select id="codec" name="codec">
+            <option value="H.264">H.264</option>
+            <option value="H.265">H.265</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label for="quality">Video quality</label>
+        <select id="quality" name="quality">
+          <option value="Low">Low</option>
+          <option value="Medium" selected>Medium</option>
+          <option value="High">High</option>
+          <option value="Custom">Custom bitrate</option>
+        </select>
+      </div>
+      <div id="customWrap" class="field hidden">
+        <label for="customKbps">Average bitrate, kbit/s</label>
+        <input id="customKbps" name="customKbps" type="number" min="1" step="1" value="1024">
+      </div>
+      <div class="row">
+        <div class="field">
+          <label for="hours">Recording hours per day</label>
+          <input id="hours" name="hours" type="number" min="1" max="24" step="1" value="24">
+        </div>
+        <div class="field">
+          <label for="retention">Retention</label>
+          <select id="retention" name="retention"></select>
+        </div>
+      </div>
+    </form>
+
+    <section class="results" aria-live="polite">
+      <div id="recommend" class="recommend">
+        <p class="recommend-label">Recommended license</p>
+        <p id="sku" class="sku">-</p>
+        <p id="skuNote" class="note"></p>
+      </div>
+
+      <dl class="stats">
+        <div><dt>Average bitrate</dt><dd id="bitrate">-</dd></div>
+        <div><dt>Storage needed</dt><dd id="storage">-</dd></div>
+        <div><dt>Equivalent at 1 Mbit/s, 24/7</dt><dd id="equivDays">-</dd></div>
+      </dl>
+
+      <table class="tiers">
+        <thead>
+          <tr><th>License</th><th class="num">Retention</th><th class="num">Quota</th><th class="num">Used</th><th>Fits</th></tr>
+        </thead>
+        <tbody id="tierRows"></tbody>
+      </table>
+
+      <div id="over" class="over hidden">
+        <h2>No license covers these settings</h2>
+        <p id="overDays"></p>
+        <p id="overLimit"></p>
+        <p>Highest frame rate per quality that fits DC3VC-1C-90C at this resolution and format:</p>
+        <ul id="hints"></ul>
+      </div>
+
+      <p class="footnote">Each license covers one camera at 1 Mbit/s average, recording 24/7, for its retention period. Units match the server calculator: 1 Mbit/s = 1024 kbit/s.</p>
+    </section>
+  </main>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
