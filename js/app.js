@@ -60,6 +60,7 @@ function render() {
       <td>${t.sku}${t.available ? "" : " (coming soon)"}</td>
       <td class="num">${t.days} days</td>
       <td class="num">${fmtGB(t.quotaGB)}</td>
+      <td class="num">${daysSupported(t.days, kbps, s.hours)}</td>
       <td class="num">${fmt(t.utilisation * 100, 0)}%</td>
       <td class="${t.fits ? "yes" : "no"}">${t.fits ? "Yes" : "No"}</td>
     </tr>`).join("");
