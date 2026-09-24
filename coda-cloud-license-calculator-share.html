@@ -227,7 +227,7 @@ select:focus-visible, input:focus-visible {
 
       <table class="tiers">
         <thead>
-          <tr><th>License</th><th class="num">Retention</th><th class="num">Quota</th><th class="num">Days</th><th class="num">Used</th><th>Fits</th></tr>
+          <tr><th>License</th><th class="num">Retention</th><th class="num">Quota</th><th class="num">Needed</th><th class="num">Days</th><th class="num">Used</th><th>Fits</th></tr>
         </thead>
         <tbody id="tierRows"></tbody>
       </table>
@@ -397,6 +397,7 @@ function render() {
       <td>${t.sku}${t.available ? "" : " (coming soon)"}</td>
       <td class="num">${t.days} days</td>
       <td class="num">${fmtGB(t.quotaGB)}</td>
+      <td class="num">${fmtGB(gb)}</td>
       <td class="num">${daysSupported(t.days, kbps, s.hours)}</td>
       <td class="num">${fmt(t.utilisation * 100, 0)}%</td>
       <td class="${t.fits ? "yes" : "no"}">${t.fits ? "Yes" : "No"}</td>
